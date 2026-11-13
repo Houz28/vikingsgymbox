@@ -7,6 +7,7 @@ export function CtaFinal() {
   const { finalCta } = site;
   return (
     <section
+      id="empezar"
       className="relative isolate bg-fire pt-[calc(var(--edge)+4rem)] pb-24 md:pt-[calc(var(--edge)+5.5rem)] md:pb-32"
       style={{
         ...axeTop(),

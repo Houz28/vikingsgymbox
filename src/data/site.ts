@@ -28,6 +28,8 @@ export interface Discipline {
   description: string;
   image: string;
   alt: string;
+  /** Punto de foco del recorte (CSS object-position), ej. "50% 30%". Opcional. */
+  focal?: string;
   /** Color del chip en la grilla de horarios. */
   color: string;
 }
@@ -42,7 +44,12 @@ export interface Plan {
   features: string[];
   /** La tarjeta destacada. Usá solo una. */
   featured?: boolean;
+  /** Etiqueta de la cinta superior de la tarjeta destacada. */
   badge?: string;
+  /** Etiqueta chica junto al precio (ej. "15% OFF"). */
+  tag?: string;
+  /** Si el precio cubre varios meses, se muestra el equivalente por mes. */
+  months?: number;
 }
 
 /** Todo lo que puede aparecer en la grilla de clases. */
@@ -71,14 +78,19 @@ export interface MerchItem {
 export interface GalleryImage {
   src: string;
   alt: string;
+  /** Punto de foco del recorte (CSS object-position). Opcional. */
+  focal?: string;
   width: number;
   height: number;
 }
 
 export interface Review {
-  /** Dejalo vacío si la reseña no tiene nombre visible. */
-  author?: string;
-  text: string;
+  nombre: string;
+  texto: string;
+  /** De 1 a 5. */
+  estrellas: number;
+  /** Antigüedad como la muestra Google ("hace 2 meses"). Vacío para no mostrarla. */
+  hace?: string;
 }
 
 export interface OpeningHours {
@@ -95,15 +107,15 @@ export interface OpeningHours {
 // ------------------------------------------------------------
 
 const whatsappNumber = "5491132849149";
-const mapsQuery = "Viking's Gym & Box, Cristóbal Colón 339, Morón";
+const mapsQuery = "Vikings Gym & Box, Cristóbal Colón 339, Morón";
 
 export const site = {
-  name: "Viking's Gym & Box",
+  name: "Vikings Gym & Box",
   /** Dominio final, sin barra al final. Se usa en canonical, Open Graph y sitemap. */
-  url: "https://vikingsgymbox.com.ar",
+  url: "https://vikingsgymbox.houzitess.workers.dev",
 
   seo: {
-    title: "Viking's Gym & Box | Gimnasio y Box de CrossFit en Morón",
+    title: "Vikings Gym & Box | Gimnasio y Box de CrossFit en Morón",
     description:
       "Gimnasio en Morón con musculación, CrossFit, boxeo, kick boxing, spinning y localizada. 4,8⭐ en Google. Cristóbal Colón 339. ¡Escribinos por WhatsApp!",
     ogImage: "/img/og.jpg",
@@ -128,7 +140,7 @@ export const site = {
     mapsQuery,
     mapsEmbedUrl: `https://www.google.com/maps?q=${encodeURIComponent(mapsQuery)}&output=embed`,
     mapsPlaceUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapsQuery)}`,
-    mapsDirectionsUrl: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapsQuery)}`,
+    mapsDirectionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Crist%C3%B3bal+Col%C3%B3n+339,+Mor%C3%B3n,+Buenos+Aires",
   },
 
   social: {
@@ -174,8 +186,10 @@ export const site = {
     subtitle:
       "Gimnasio y box en el corazón de Morón. Musculación, CrossFit, boxeo y más.",
     image: "/img/hero.webp",
+    /** Punto de foco del recorte en pantallas angostas (CSS object-position). */
+    imageFocal: "68% 50%",
     imageAlt:
-      "Interior del box de Viking's Gym & Box en Morón, con rack, barras y discos bajo luz roja",
+      "Interior del box de Vikings Gym & Box en Morón, con rack, barras y discos bajo luz roja",
     primaryCta: "Quiero empezar",
     secondaryCta: "Ver planes",
     /** Franja de datos debajo del hero. */
@@ -267,7 +281,8 @@ export const site = {
       { title: "Clases para principiantes", text: "Cada WOD se escala. Nadie arranca sabiendo." },
     ],
     image: "/img/box.webp",
-    imageAlt: "El box de Viking's con rig, anillas, cajones de salto y kettlebells",
+    imageFocal: "50% 50%",
+    imageAlt: "El box de Vikings con rig, anillas, cajones de salto y kettlebells",
     cta: "Quiero probar una clase",
     ctaMessage: "Hola Vikings! Quiero probar una clase en el box",
     /** Pizarrón de ejemplo. Cambialo por el WOD que quieras. */
@@ -285,6 +300,35 @@ export const site = {
   plansNote: "Precios vigentes publicados por Vikings. Consultá por otras disciplinas y planes.",
   plans: [
     {
+      id: "promo-bimestral",
+      name: "Promo bimestral",
+      price: 90000,
+      period: "/2 meses",
+      months: 2,
+      summary: "Dos meses para arrancar con todo.",
+      features: [
+        "Musculación libre",
+        "Boxeo, CrossFit, spinning y localizada",
+        "Ideal para empezar",
+      ],
+    },
+    {
+      id: "promo-trimestral",
+      name: "Promo trimestral",
+      price: 125000,
+      period: "/3 meses",
+      months: 3,
+      summary: "Pagando 3 meses tenés 15% off.",
+      features: [
+        "Musculación libre",
+        "Boxeo, CrossFit, spinning y localizada",
+        "El mejor precio por mes",
+      ],
+      featured: true,
+      badge: "Más elegido",
+      tag: "15% OFF",
+    },
+    {
       id: "kick-muaythai",
       name: "Kick Boxing / Muay Thai",
       price: 40000,
@@ -294,32 +338,6 @@ export const site = {
         "Kick boxing o Muay Thai, 3 veces por semana",
         "Técnica, bolsa y trabajo con guantes",
         "Para todos los niveles",
-      ],
-    },
-    {
-      id: "promo-trimestral",
-      name: "Promo trimestral",
-      price: 125000,
-      period: "/3 meses",
-      summary: "Pagando 3 meses tenés 15% off.",
-      features: [
-        "Musculación libre",
-        "Boxeo, CrossFit, spinning y localizada",
-        "El mejor precio por mes",
-      ],
-      featured: true,
-      badge: "15% off",
-    },
-    {
-      id: "promo-bimestral",
-      name: "Promo bimestral",
-      price: 90000,
-      period: "/2 meses",
-      summary: "Dos meses para arrancar con todo.",
-      features: [
-        "Musculación libre",
-        "Boxeo, CrossFit, spinning y localizada",
-        "Ideal para empezar",
       ],
     },
     {
@@ -443,18 +461,22 @@ export const site = {
   // ----------------------------------------------------------
   //  Reseñas reales de Google
   // ----------------------------------------------------------
+  /** Reseñas reales de Google. Para sumar una: { nombre, texto, estrellas, hace }. */
   reviews: [
     {
-      author: "Atuel Ochoa",
-      text: "Calidad de vida, calidad humana, inmejorable precio para una inmejorable propuesta. Lejos de las fórmulas despersonalizadas, Vikings destaca por lo humano y profesional.",
+      nombre: "Atuel Ochoa",
+      texto:
+        "Calidad de vida, calidad humana, inmejorable precio para una inmejorable propuesta. Lejos de las fórmulas despersonalizadas, Vikings destaca por lo humano y profesional.",
+      estrellas: 5,
+      hace: "",
     },
     {
-      author: "Patricio Javier García",
-      text: "Muy buen ambiente, espacioso, la maquinaria y el trato excelentes, pondría más estrellas, súper recomendado.",
+      nombre: "Patricio Javier García",
+      texto:
+        "Muy buen ambiente, espacioso, la maquinaria y el trato excelentes, pondría más estrellas, súper recomendado.",
+      estrellas: 5,
+      hace: "",
     },
-    { text: "Hermoso lugar, son todos muy cordiales y atentos." },
-    { text: "Buena calidad de elementos y predisposición de los profesores." },
-    { text: "Buena atención y excelente lugar para entrenar." },
   ] satisfies Review[],
 
   // ----------------------------------------------------------

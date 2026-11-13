@@ -22,9 +22,13 @@ function Stars({ value, className = "" }: { value: number; className?: string })
   );
 }
 
+function initials(name: string) {
+  const parts = name.trim().split(/\s+/);
+  return ((parts[0]?.[0] ?? "") + (parts.length > 1 ? parts[parts.length - 1][0] : "")).toUpperCase();
+}
+
 export function Opiniones() {
   const { rating, reviews, contact } = site;
-  const [featured, second, ...short] = reviews;
 
   return (
     <section
@@ -87,57 +91,43 @@ export function Opiniones() {
         </Reveal>
 
         {/* Reseñas */}
-        <div className="lg:col-span-7 xl:col-span-8 xl:pl-6">
-          {featured ? (
-            <Reveal as="figure" className="relative border-l-2 border-fire pl-6 md:pl-10">
-              <svg
-                viewBox="0 0 40 32"
-                className="mb-6 h-8 w-10 text-fire"
-                aria-hidden="true"
-                fill="currentColor"
-              >
-                <path d="M0 32V18L9 0h7l-5 14h6v18Zm23 0V18l9-18h7l-5 14h6v18Z" />
-              </svg>
-              <blockquote className="text-pretty text-[1.4rem] leading-[1.45] font-medium text-white md:text-[1.85rem] md:leading-[1.35]">
-                <p>{featured.text}</p>
-              </blockquote>
-              <figcaption className="mt-6 text-bone/85">
-                <span className="font-semibold text-white">{featured.author ?? "Reseña de Google"}</span>
-                <span className="text-steel">, reseña en Google</span>
-              </figcaption>
+        <ul className="grid content-start gap-5 lg:col-span-7 xl:col-span-8 xl:pl-6">
+          {reviews.map((r, i) => (
+            <Reveal as="li" key={r.nombre} delay={i * 80}>
+              <figure className={`frame h-full [--cut:18px] [--fill:#151516] ${i === 0 ? "[--frame:rgb(193_18_31/0.6)]" : ""}`}>
+                <div className="p-6 md:p-8">
+                  <figcaption className="flex items-center gap-4">
+                    <span
+                      className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-fire font-display text-[1.35rem] tracking-[0.04em] text-white"
+                      aria-hidden="true"
+                    >
+                      {initials(r.nombre)}
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block font-semibold text-white">{r.nombre}</span>
+                      <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-bone/80">
+                        <span className="flex gap-0.5 text-gold" role="img" aria-label={`${r.estrellas} de 5 estrellas`}>
+                          {Array.from({ length: 5 }, (_, k) => (
+                            <StarIcon key={k} className={`h-4 w-4 ${k < r.estrellas ? "" : "opacity-25"}`} />
+                          ))}
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <GoogleIcon className="h-3.5 w-3.5" />
+                          en Google{r.hace ? `, ${r.hace}` : ""}
+                        </span>
+                      </span>
+                    </span>
+                  </figcaption>
+                  <blockquote
+                    className={`mt-5 text-pretty text-white ${i === 0 ? "text-[1.3rem] leading-[1.45] font-medium md:text-[1.6rem] md:leading-[1.4]" : "text-[1.1rem] leading-relaxed text-bone/90"}`}
+                  >
+                    <p>“{r.texto}”</p>
+                  </blockquote>
+                </div>
+              </figure>
             </Reveal>
-          ) : null}
-
-          {second ? (
-            <Reveal as="figure" delay={80} className="mt-14 max-w-[52ch] pl-6 md:ml-auto md:pl-10">
-              <blockquote className="text-pretty text-[1.15rem] leading-relaxed text-bone/90 md:text-[1.25rem]">
-                <p>“{second.text}”</p>
-              </blockquote>
-              <figcaption className="mt-4 text-sm">
-                <span className="font-semibold text-white">{second.author ?? "Reseña de Google"}</span>
-                <span className="text-steel">, reseña en Google</span>
-              </figcaption>
-            </Reveal>
-          ) : null}
-
-          {short.length ? (
-            <ul className="mt-14 grid gap-px bg-rule sm:grid-cols-3">
-              {short.map((r, i) => (
-                <Reveal as="li" key={r.text} delay={i * 80} className="bg-[#151516] p-6">
-                  <figure>
-                    <blockquote className="text-[1.02rem] leading-snug text-bone/90">
-                      <p>“{r.text}”</p>
-                    </blockquote>
-                    <figcaption className="mt-4 flex items-center gap-2 text-sm text-steel">
-                      <GoogleIcon className="h-3.5 w-3.5" />
-                      {r.author ?? "Reseña de Google"}
-                    </figcaption>
-                  </figure>
-                </Reveal>
-              ))}
-            </ul>
-          ) : null}
-        </div>
+          ))}
+        </ul>
       </div>
     </section>
   );

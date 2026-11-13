@@ -11,7 +11,3 @@
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-
-# La URL de prueba *.workers.dev no se indexa en Google (el dominio propio sí).
-https://:worker.:account.workers.dev/*
-  X-Robots-Tag: noindex

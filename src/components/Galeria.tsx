@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { site } from "../data/site";
+import { responsive } from "../lib/img";
 import { ChevronIcon, CloseIcon, InstagramIcon } from "./icons";
 import { Reveal, SectionHeading } from "./ornaments";
 
@@ -81,7 +82,6 @@ export function Galeria() {
         <ul className="mt-12 columns-2 gap-3 md:mt-14 md:columns-3 md:gap-4 lg:columns-4">
           {images.map((img, i) => (
             <li key={img.src} className="mb-3 break-inside-avoid md:mb-4">
-              <Reveal delay={(i % 4) * 60}>
                 <button
                   type="button"
                   onClick={(e) => open(i, e.currentTarget)}
@@ -90,6 +90,8 @@ export function Galeria() {
                 >
                   <img
                     src={img.src}
+                    {...responsive(img.src, "(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw")}
+                    style={{ objectPosition: (img as { focal?: string }).focal }}
                     alt={img.alt}
                     width={img.width}
                     height={img.height}
@@ -99,7 +101,6 @@ export function Galeria() {
                   />
                   <span className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/5 transition-[box-shadow] group-hover:ring-2 group-hover:ring-fire" />
                 </button>
-              </Reveal>
             </li>
           ))}
         </ul>

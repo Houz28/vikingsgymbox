@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { site } from "../data/site";
 import { waLink } from "../lib/whatsapp";
-import { CloseIcon, HelmetIcon, MenuIcon, WhatsAppIcon } from "./icons";
+import { CloseIcon, MenuIcon, WhatsAppIcon } from "./icons";
 
 export const NAV_LINKS = [
   { href: "#disciplinas", label: "Disciplinas" },
@@ -15,15 +15,14 @@ export const NAV_LINKS = [
 
 export function Logo({ className = "" }: { className?: string }) {
   return (
-    <span className={`flex items-center gap-2.5 ${className}`}>
-      <HelmetIcon className="h-8 w-8 text-fire" />
-      <span className="flex flex-col leading-none">
-        <span className="font-display text-[1.7rem] tracking-[0.12em] text-bone">Viking's</span>
-        <span className="mt-0.5 text-[0.62rem] font-semibold tracking-[0.32em] text-steel">
-          GYM &amp; BOX
-        </span>
-      </span>
-    </span>
+    <img
+      src="/img/logo/vikings-gym-box.svg"
+      alt="Vikings Gym & Box"
+      width={76}
+      height={40}
+      decoding="async"
+      className={`block h-8 w-auto md:h-10 ${className}`}
+    />
   );
 }
 

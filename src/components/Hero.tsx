@@ -1,5 +1,6 @@
 import { site } from "../data/site";
 import { formatDecimal } from "../lib/format";
+import { responsive } from "../lib/img";
 import { waLink } from "../lib/whatsapp";
 import { GoogleIcon, StarIcon, WhatsAppIcon } from "./icons";
 
@@ -12,12 +13,14 @@ export function Hero() {
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <img
           src={hero.image}
+          {...responsive(hero.image, "100vw")}
           alt={hero.imageAlt}
           width={1920}
           height={1080}
           fetchPriority="high"
           decoding="async"
-          className="h-full w-full object-cover object-[68%_50%]"
+          className="h-full w-full object-cover"
+          style={{ objectPosition: hero.imageFocal }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-carbon via-carbon/75 to-carbon/10" />
         <div className="absolute inset-0 bg-gradient-to-b from-carbon/70 via-transparent to-transparent" />
@@ -25,7 +28,7 @@ export function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-carbon via-carbon/60 to-transparent" />
       </div>
 
-      <div className="container-v flex flex-1 flex-col justify-center pt-28 pb-12 md:pt-32">
+      <div className="container-v relative flex flex-1 flex-col justify-center pt-28 pb-12 md:pt-32">
         <a
           href="#opiniones"
           className="hero-fade inline-flex w-fit items-center gap-2.5 border border-bone/15 bg-carbon/60 px-3.5 py-2 text-sm text-bone/90 backdrop-blur-sm transition-colors hover:border-gold/60"
@@ -39,6 +42,15 @@ export function Hero() {
           </span>
         </a>
 
+        <img
+          src="/img/logo/vikings.svg"
+          alt=""
+          aria-hidden="true"
+          width={318}
+          height={122}
+          decoding="async"
+          className="pointer-events-none absolute top-1/2 left-1/2 -z-10 w-[min(1100px,120vw)] max-w-none -translate-x-1/2 -translate-y-[60%] opacity-[0.07] select-none lg:left-[38%]"
+        />
         <h1 className="display-1 relative isolate mt-7 max-w-[9ch] text-white md:mt-8">
           <span className="hero-ignite pointer-events-none absolute -inset-[30%] -z-10 bg-[radial-gradient(45%_45%_at_35%_55%,rgb(193_18_31/0.5),transparent_70%)]" />
           {hero.titleLines.map((line, i) => (

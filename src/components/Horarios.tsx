@@ -119,7 +119,7 @@ export function Horarios() {
                     <dt className="text-sm text-steel">{h.label}</dt>
                     <dd
                       className={`mt-1 font-display text-[2rem] leading-none tracking-[0.04em] tabular ${
-                        h.closed ? "text-steel/70" : "text-white"
+                        h.closed ? "text-steel" : "text-white"
                       }`}
                     >
                       {h.closed ? "Cerrado" : `${h.opens} a ${h.closes}`}

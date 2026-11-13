@@ -132,10 +132,13 @@ export function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    const show = () => el.classList.add("is-visible");
     if (!("IntersectionObserver" in window)) {
-      el.classList.add("is-visible");
+      show();
       return;
     }
+    // Respaldo: si el observer no dispara (pestaña en segundo plano, navegador viejo), mostrar igual.
+    const fallback = window.setTimeout(show, 2500);
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -148,7 +151,10 @@ export function Reveal({
       { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
     );
     io.observe(el);
-    return () => io.disconnect();
+    return () => {
+      window.clearTimeout(fallback);
+      io.disconnect();
+    };
   }, []);
 
   return (

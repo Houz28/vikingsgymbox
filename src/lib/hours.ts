@@ -25,6 +25,9 @@ function nowInArgentina() {
   return { weekday: get("weekday"), minutes: Number(get("hour")) * 60 + Number(get("minute")) };
 }
 
+/** "08:00" → "8:00" */
+const short = (hhmm: string) => hhmm.replace(/^0/, "");
+
 const toMinutes = (hhmm: string) => {
   const [h, m] = hhmm.split(":").map(Number);
   return h * 60 + m;
@@ -37,10 +40,10 @@ export function getOpenStatus(): OpenStatus {
   const today = site.hours.find((h) => h.days.includes(weekday));
   if (today && !today.closed && today.opens && today.closes) {
     if (minutes >= toMinutes(today.opens) && minutes < toMinutes(today.closes)) {
-      return { open: true, text: `Abierto ahora, cierra a las ${today.closes}` };
+      return { open: true, text: `Abierto ahora, cierra a las ${short(today.closes)}` };
     }
     if (minutes < toMinutes(today.opens)) {
-      return { open: false, text: `Cerrado ahora, abre hoy a las ${today.opens}` };
+      return { open: false, text: `Cerrado, abrimos hoy a las ${short(today.opens)}` };
     }
   }
   const idx = WEEKDAYS.indexOf(weekday);
@@ -49,10 +52,10 @@ export function getOpenStatus(): OpenStatus {
     const h = site.hours.find((x) => x.days.includes(day));
     if (h && !h.closed && h.opens) {
       const when = i === 1 ? "mañana" : DAY_NAMES_ES[day];
-      return { open: false, text: `Cerrado ahora, abre ${when} a las ${h.opens}` };
+      return { open: false, text: `Cerrado, abrimos ${when} a las ${short(h.opens)}` };
     }
   }
-  return { open: false, text: "Cerrado ahora" };
+  return { open: false, text: "Cerrado" };
 }
 
 /** Día de la grilla de clases que corresponde a hoy (el domingo muestra el lunes). */
