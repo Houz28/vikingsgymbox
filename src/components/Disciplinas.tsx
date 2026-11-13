@@ -16,8 +16,8 @@ export function Disciplinas() {
         <SectionHeading
           id="disciplinas-titulo"
           rune="uruz"
-          title="Seis disciplinas, un solo gimnasio en Morón"
-          lead="Elegí cómo querés entrenar, o combiná varias. Con el pase libre tenés todas."
+          title="Todas las disciplinas, un solo gimnasio en Morón"
+          lead="Elegí cómo querés entrenar o combiná varias. Mirá la grilla completa en Horarios."
         />
 
         <ul className="mt-12 grid gap-4 sm:grid-cols-2 md:mt-16 lg:grid-cols-3 lg:gap-5">

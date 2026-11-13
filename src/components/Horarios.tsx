@@ -1,15 +1,19 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
-import { site, type ClassSlot, type DayId, type DisciplineId } from "../data/site";
+import { site, type ClassSlot, type ClassTypeId, type DayId } from "../data/site";
 import { getOpenStatus, todayDayId, type OpenStatus } from "../lib/hours";
 import { ClockIcon } from "./icons";
 import { Reveal, SectionHeading } from "./ornaments";
 
-const disciplineById = Object.fromEntries(site.disciplines.map((d) => [d.id, d])) as Record<
-  DisciplineId,
-  (typeof site.disciplines)[number]
+const classTypes: { id: ClassTypeId; name: string; color: string }[] = [
+  ...site.disciplines.filter((d) => d.id !== "musculacion").map((d) => ({ id: d.id as ClassTypeId, name: d.name, color: d.color })),
+  ...site.extraClassTypes,
+];
+const disciplineById = Object.fromEntries(classTypes.map((d) => [d.id, d])) as Record<
+  ClassTypeId,
+  (typeof classTypes)[number]
 >;
 
-function ClassChip({ id, compact = false }: { id: DisciplineId; compact?: boolean }) {
+function ClassChip({ id, compact = false }: { id: ClassTypeId; compact?: boolean }) {
   const d = disciplineById[id];
   return (
     <span
@@ -67,7 +71,7 @@ export function Horarios() {
     return map;
   }, [classes]);
   const usedDisciplines = useMemo(
-    () => site.disciplines.filter((d) => classes.some((c) => c.discipline === d.id)),
+    () => classTypes.filter((d) => classes.some((c) => c.discipline === d.id)),
     [classes],
   );
   const dayClasses = classes

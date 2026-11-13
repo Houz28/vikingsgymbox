@@ -5,6 +5,7 @@ import { Footer } from "./components/Footer";
 import { Galeria } from "./components/Galeria";
 import { Hero } from "./components/Hero";
 import { Horarios } from "./components/Horarios";
+import { Merch } from "./components/Merch";
 import { Navbar } from "./components/Navbar";
 import { Opiniones } from "./components/Opiniones";
 import { Planes } from "./components/Planes";
@@ -22,6 +23,7 @@ export default function App() {
         <Planes />
         <Horarios />
         <Galeria />
+        <Merch />
         <Opiniones />
         <CtaFinal />
         <Ubicacion />

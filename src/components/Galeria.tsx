@@ -56,7 +56,7 @@ export function Galeria() {
   const current = index !== null ? images[index] : null;
 
   return (
-    <section id="galeria" className="relative tex-iron pt-20 pb-28 md:pt-28 md:pb-36" aria-labelledby="galeria-titulo">
+    <section id="galeria" className="relative tex-iron pt-20 pb-20 md:pt-28 md:pb-24" aria-labelledby="galeria-titulo">
       <div className="container-v">
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <SectionHeading
