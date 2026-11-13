@@ -45,11 +45,27 @@ export interface Plan {
   badge?: string;
 }
 
+/** Todo lo que puede aparecer en la grilla de clases. */
+export type ClassTypeId =
+  | Exclude<DisciplineId, "musculacion">
+  | "muaythai"
+  | "fullcontact"
+  | "mma"
+  | "kickinfantil"
+  | "zumba";
+
 export interface ClassSlot {
   day: DayId;
   /** Formato 24 h "HH:MM". */
   time: string;
-  discipline: DisciplineId;
+  discipline: ClassTypeId;
+}
+
+export interface MerchItem {
+  name: string;
+  detail: string;
+  image: string;
+  alt: string;
 }
 
 export interface GalleryImage {
@@ -165,7 +181,7 @@ export const site = {
     /** Franja de datos debajo del hero. */
     stats: [
       { value: "+15 mil", label: "en Instagram" },
-      { value: "6", label: "disciplinas" },
+      { value: "+10", label: "disciplinas y clases" },
       { value: "Hasta 22:30", label: "abierto de lunes a viernes" },
     ],
   },
@@ -201,7 +217,7 @@ export const site = {
     {
       id: "kick",
       name: "Kick Boxing",
-      description: "Puños y patadas para ganar potencia, coordinación y cabeza fría.",
+      description: "Kick, Muay Thai, Full Contact y MMA. También hay kick infantil.",
       image: "/img/kick.webp",
       alt: "Bolsa larga de kick boxing en el sector de combate",
       color: "#b08d57",
@@ -223,6 +239,15 @@ export const site = {
       color: "#d9a0b8",
     },
   ] satisfies Discipline[],
+
+  /** Clases de la grilla que no tienen tarjeta propia (color del chip). */
+  extraClassTypes: [
+    { id: "muaythai", name: "Muay Thai", color: "#e0a458" },
+    { id: "fullcontact", name: "Full Contact", color: "#9b5de5" },
+    { id: "mma", name: "MMA", color: "#ef476f" },
+    { id: "kickinfantil", name: "Kick infantil", color: "#06d6a0" },
+    { id: "zumba", name: "Zumba", color: "#ffd166" },
+  ] satisfies { id: ClassTypeId; name: string; color: string }[],
 
   // ----------------------------------------------------------
   //  El Box
@@ -257,57 +282,53 @@ export const site = {
   // ----------------------------------------------------------
   //  Planes y precios (precios de ejemplo)
   // ----------------------------------------------------------
-  plansNote: "Precios de referencia — consultá promociones vigentes",
+  plansNote: "Precios vigentes publicados por Vikings. Consultá por otras disciplinas y planes.",
   plans: [
     {
-      id: "musculacion-libre",
-      name: "Musculación libre",
-      price: 32000,
+      id: "kick-muaythai",
+      name: "Kick Boxing / Muay Thai",
+      price: 40000,
       period: "/mes",
-      summary: "La sala completa, los días que quieras.",
+      summary: "Tres clases por semana de combate.",
       features: [
-        "Acceso libre en todo el horario",
-        "Rutina armada por un profe",
-        "Cambios de rutina cuando lo necesites",
-      ],
-    },
-    {
-      id: "funcional-crossfit-3x",
-      name: "Funcional / CrossFit 3x",
-      price: 38000,
-      period: "/mes",
-      summary: "Tres clases por semana en el box.",
-      features: [
-        "WODs en grupo con coach",
-        "Técnica y escalado a tu nivel",
-        "Elegís días y horarios",
-      ],
-      featured: true,
-      badge: "Más elegido",
-    },
-    {
-      id: "pase-libre-full",
-      name: "Pase libre Full",
-      price: 48000,
-      period: "/mes",
-      summary: "Todas las disciplinas, todos los días.",
-      features: [
-        "Musculación + todas las clases",
-        "CrossFit, boxeo, kick, spinning y localizada",
-        "Sin límite de clases por semana",
-      ],
-    },
-    {
-      id: "boxeo-kick-2x",
-      name: "Boxeo / Kick 2x",
-      price: 28000,
-      period: "/mes",
-      summary: "Dos clases por semana de combate.",
-      features: [
-        "Boxeo o kick boxing, o combinás",
+        "Kick boxing o Muay Thai, 3 veces por semana",
         "Técnica, bolsa y trabajo con guantes",
         "Para todos los niveles",
       ],
+    },
+    {
+      id: "promo-trimestral",
+      name: "Promo trimestral",
+      price: 125000,
+      period: "/3 meses",
+      summary: "Pagando 3 meses tenés 15% off.",
+      features: [
+        "Musculación libre",
+        "Boxeo, CrossFit, spinning y localizada",
+        "El mejor precio por mes",
+      ],
+      featured: true,
+      badge: "15% off",
+    },
+    {
+      id: "promo-bimestral",
+      name: "Promo bimestral",
+      price: 90000,
+      period: "/2 meses",
+      summary: "Dos meses para arrancar con todo.",
+      features: [
+        "Musculación libre",
+        "Boxeo, CrossFit, spinning y localizada",
+        "Ideal para empezar",
+      ],
+    },
+    {
+      id: "zumba",
+      name: "Zumba",
+      price: 38000,
+      period: "/mes",
+      summary: "Lunes y miércoles a las 21 h.",
+      features: ["Clases con música y grupo", "Sin experiencia previa", "Mucha energía y buena onda"],
     },
   ] satisfies Plan[],
 
@@ -325,57 +346,70 @@ export const site = {
 
   /** Musculación no tiene clases: la sala está abierta todo el horario. */
   scheduleNote:
-    "La sala de musculación está abierta en todo el horario del gimnasio. Horarios de clases de referencia: confirmalos por WhatsApp.",
+    "La sala de musculación está abierta en todo el horario del gimnasio. Horario de clases vigente según la grilla de Vikings.",
 
   classes: [
-    // Lunes
+    { day: "lun", time: "08:00", discipline: "boxeo" },
     { day: "lun", time: "08:00", discipline: "crossfit" },
-    { day: "lun", time: "09:00", discipline: "localizada" },
-    { day: "lun", time: "10:00", discipline: "boxeo" },
-    { day: "lun", time: "18:00", discipline: "crossfit" },
+    { day: "lun", time: "09:30", discipline: "kick" },
+    { day: "lun", time: "12:00", discipline: "muaythai" },
+    { day: "lun", time: "16:00", discipline: "boxeo" },
+    { day: "lun", time: "18:00", discipline: "kick" },
+    { day: "lun", time: "18:00", discipline: "kickinfantil" },
     { day: "lun", time: "19:00", discipline: "crossfit" },
-    { day: "lun", time: "19:00", discipline: "spinning" },
+    { day: "lun", time: "19:00", discipline: "localizada" },
+    { day: "lun", time: "19:00", discipline: "mma" },
     { day: "lun", time: "20:00", discipline: "boxeo" },
-    { day: "lun", time: "21:00", discipline: "crossfit" },
-    // Martes
-    { day: "mar", time: "08:00", discipline: "spinning" },
-    { day: "mar", time: "09:00", discipline: "crossfit" },
-    { day: "mar", time: "18:00", discipline: "kick" },
+    { day: "lun", time: "20:00", discipline: "spinning" },
+    { day: "lun", time: "21:00", discipline: "kick" },
+    { day: "lun", time: "21:00", discipline: "zumba" },
+    { day: "mar", time: "09:30", discipline: "fullcontact" },
+    { day: "mar", time: "16:00", discipline: "kick" },
+    { day: "mar", time: "17:00", discipline: "boxeo" },
+    { day: "mar", time: "18:00", discipline: "muaythai" },
     { day: "mar", time: "19:00", discipline: "crossfit" },
-    { day: "mar", time: "20:00", discipline: "localizada" },
-    { day: "mar", time: "20:00", discipline: "crossfit" },
+    { day: "mar", time: "20:00", discipline: "kick" },
+    { day: "mar", time: "20:00", discipline: "spinning" },
     { day: "mar", time: "21:00", discipline: "boxeo" },
-    // Miércoles
+    { day: "mie", time: "08:00", discipline: "boxeo" },
     { day: "mie", time: "08:00", discipline: "crossfit" },
-    { day: "mie", time: "09:00", discipline: "localizada" },
-    { day: "mie", time: "10:00", discipline: "boxeo" },
-    { day: "mie", time: "18:00", discipline: "crossfit" },
+    { day: "mie", time: "09:30", discipline: "kick" },
+    { day: "mie", time: "12:00", discipline: "muaythai" },
+    { day: "mie", time: "16:00", discipline: "boxeo" },
+    { day: "mie", time: "18:00", discipline: "kick" },
+    { day: "mie", time: "18:00", discipline: "kickinfantil" },
     { day: "mie", time: "19:00", discipline: "crossfit" },
-    { day: "mie", time: "19:00", discipline: "spinning" },
-    { day: "mie", time: "20:00", discipline: "kick" },
-    { day: "mie", time: "21:00", discipline: "crossfit" },
-    // Jueves
-    { day: "jue", time: "08:00", discipline: "spinning" },
-    { day: "jue", time: "09:00", discipline: "crossfit" },
-    { day: "jue", time: "18:00", discipline: "kick" },
+    { day: "mie", time: "19:00", discipline: "localizada" },
+    { day: "mie", time: "19:00", discipline: "mma" },
+    { day: "mie", time: "20:00", discipline: "boxeo" },
+    { day: "mie", time: "20:00", discipline: "spinning" },
+    { day: "mie", time: "21:00", discipline: "kick" },
+    { day: "mie", time: "21:00", discipline: "zumba" },
+    { day: "jue", time: "09:30", discipline: "fullcontact" },
+    { day: "jue", time: "16:00", discipline: "kick" },
+    { day: "jue", time: "17:00", discipline: "boxeo" },
+    { day: "jue", time: "18:00", discipline: "muaythai" },
     { day: "jue", time: "19:00", discipline: "crossfit" },
-    { day: "jue", time: "20:00", discipline: "boxeo" },
-    { day: "jue", time: "20:00", discipline: "crossfit" },
-    { day: "jue", time: "21:00", discipline: "kick" },
-    // Viernes
+    { day: "jue", time: "20:00", discipline: "kick" },
+    { day: "jue", time: "20:00", discipline: "spinning" },
+    { day: "jue", time: "21:00", discipline: "boxeo" },
+    { day: "vie", time: "08:00", discipline: "boxeo" },
     { day: "vie", time: "08:00", discipline: "crossfit" },
-    { day: "vie", time: "09:00", discipline: "localizada" },
-    { day: "vie", time: "10:00", discipline: "boxeo" },
-    { day: "vie", time: "18:00", discipline: "crossfit" },
-    { day: "vie", time: "19:00", discipline: "boxeo" },
-    { day: "vie", time: "19:00", discipline: "spinning" },
-    { day: "vie", time: "20:00", discipline: "kick" },
-    { day: "vie", time: "21:00", discipline: "crossfit" },
-    // Sábado
-    { day: "sab", time: "10:00", discipline: "crossfit" },
-    { day: "sab", time: "11:00", discipline: "boxeo" },
-    { day: "sab", time: "12:00", discipline: "spinning" },
-    { day: "sab", time: "13:00", discipline: "localizada" },
+    { day: "vie", time: "09:30", discipline: "kick" },
+    { day: "vie", time: "12:00", discipline: "muaythai" },
+    { day: "vie", time: "16:00", discipline: "boxeo" },
+    { day: "vie", time: "18:00", discipline: "kick" },
+    { day: "vie", time: "18:00", discipline: "kickinfantil" },
+    { day: "vie", time: "19:00", discipline: "crossfit" },
+    { day: "vie", time: "19:00", discipline: "localizada" },
+    { day: "vie", time: "19:00", discipline: "mma" },
+    { day: "vie", time: "20:00", discipline: "boxeo" },
+    { day: "vie", time: "20:00", discipline: "spinning" },
+    { day: "vie", time: "21:00", discipline: "kick" },
+    { day: "sab", time: "10:00", discipline: "boxeo" },
+    { day: "sab", time: "11:00", discipline: "spinning" },
+    { day: "sab", time: "12:00", discipline: "crossfit" },
+    { day: "sab", time: "13:30", discipline: "kick" },
   ] satisfies ClassSlot[],
 
   // ----------------------------------------------------------
@@ -395,6 +429,16 @@ export const site = {
     { src: "/img/galeria-11.webp", alt: "Pelotas medicinales contra la pared del box", width: 1200, height: 800 },
     { src: "/img/galeria-12.webp", alt: "Rig completo del box con barras de dominadas", width: 900, height: 900 },
   ] satisfies GalleryImage[],
+
+  // ----------------------------------------------------------
+  //  Merch (fotos de las historias de Instagram)
+  // ----------------------------------------------------------
+  merch: [
+    { name: "Remeras", detail: "Negras y blancas, talles S al XXXL y oversize", image: "/img/merch-remeras.webp", alt: "Remeras Vikings Gym & Box negra y blanca" },
+    { name: "Musculosas", detail: "Sin manga, en negro", image: "/img/merch-musculosa.webp", alt: "Musculosa negra con el logo de Vikings Gym & Box" },
+    { name: "Vaso vikingo", detail: "Chopp de 1 litro con el logo", image: "/img/merch-vaso.webp", alt: "Vaso tipo chopp de 1 litro con el logo de Vikings" },
+    { name: "Guantes y tibiales", detail: "Para boxeo, kick y Muay Thai", image: "/img/merch-guantes.webp", alt: "Tibiales rojos y negros y guantes de boxeo azules" },
+  ] satisfies MerchItem[],
 
   // ----------------------------------------------------------
   //  Reseñas reales de Google

@@ -54,7 +54,7 @@ export function Planes() {
                       <span className="font-display text-[3.6rem] leading-none tracking-[0.02em] text-white tabular">
                         {formatPrice(plan.price)}
                       </span>
-                      <span className="text-sm text-steel">{plan.period}</span>
+                      <span className="text-sm whitespace-nowrap text-steel">{plan.period}</span>
                     </p>
 
                     <ul className="mt-6 space-y-3 text-[0.95rem]">
