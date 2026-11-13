@@ -85,9 +85,12 @@ export interface GalleryImage {
 }
 
 export interface Review {
-  /** Dejalo vacío si la reseña no tiene nombre visible. */
-  author?: string;
-  text: string;
+  nombre: string;
+  texto: string;
+  /** De 1 a 5. */
+  estrellas: number;
+  /** Antigüedad como la muestra Google ("hace 2 meses"). Vacío para no mostrarla. */
+  hace?: string;
 }
 
 export interface OpeningHours {
@@ -458,18 +461,22 @@ export const site = {
   // ----------------------------------------------------------
   //  Reseñas reales de Google
   // ----------------------------------------------------------
+  /** Reseñas reales de Google. Para sumar una: { nombre, texto, estrellas, hace }. */
   reviews: [
     {
-      author: "Atuel Ochoa",
-      text: "Calidad de vida, calidad humana, inmejorable precio para una inmejorable propuesta. Lejos de las fórmulas despersonalizadas, Vikings destaca por lo humano y profesional.",
+      nombre: "Atuel Ochoa",
+      texto:
+        "Calidad de vida, calidad humana, inmejorable precio para una inmejorable propuesta. Lejos de las fórmulas despersonalizadas, Vikings destaca por lo humano y profesional.",
+      estrellas: 5,
+      hace: "",
     },
     {
-      author: "Patricio Javier García",
-      text: "Muy buen ambiente, espacioso, la maquinaria y el trato excelentes, pondría más estrellas, súper recomendado.",
+      nombre: "Patricio Javier García",
+      texto:
+        "Muy buen ambiente, espacioso, la maquinaria y el trato excelentes, pondría más estrellas, súper recomendado.",
+      estrellas: 5,
+      hace: "",
     },
-    { text: "Hermoso lugar, son todos muy cordiales y atentos." },
-    { text: "Buena calidad de elementos y predisposición de los profesores." },
-    { text: "Buena atención y excelente lugar para entrenar." },
   ] satisfies Review[],
 
   // ----------------------------------------------------------
