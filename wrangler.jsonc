@@ -1,0 +1,9 @@
+{
+  // Cloudflare Workers: sitio estático servido desde ./dist (sin código de Worker).
+  "name": "vikingsgymbox",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
