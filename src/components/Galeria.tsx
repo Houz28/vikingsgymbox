@@ -81,7 +81,6 @@ export function Galeria() {
         <ul className="mt-12 columns-2 gap-3 md:mt-14 md:columns-3 md:gap-4 lg:columns-4">
           {images.map((img, i) => (
             <li key={img.src} className="mb-3 break-inside-avoid md:mb-4">
-              <Reveal delay={(i % 4) * 60}>
                 <button
                   type="button"
                   onClick={(e) => open(i, e.currentTarget)}
@@ -99,7 +98,6 @@ export function Galeria() {
                   />
                   <span className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/5 transition-[box-shadow] group-hover:ring-2 group-hover:ring-fire" />
                 </button>
-              </Reveal>
             </li>
           ))}
         </ul>
