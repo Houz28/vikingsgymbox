@@ -1,0 +1,17 @@
+# Cloudflare Workers (static assets): headers para las respuestas.
+
+# JS, CSS y fuentes llevan hash en el nombre: se cachean un año.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fotos: nombres fijos, así que se cachean un día (si las reemplazás, se actualizan solas).
+/img/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# La URL de prueba *.workers.dev no se indexa en Google (el dominio propio sí).
+https://:worker.:account.workers.dev/*
+  X-Robots-Tag: noindex

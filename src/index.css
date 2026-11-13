@@ -1,0 +1,455 @@
+@import "@fontsource/bebas-neue/latin-400.css";
+@import "@fontsource-variable/inter/wght.css";
+@import "tailwindcss";
+
+/* ============================================================
+   Tokens
+   ============================================================ */
+@theme {
+  --color-carbon: #0d0d0d;
+  --color-coal: #141414;
+  --color-iron: #1b1b1d;
+  --color-rule: #2a2a2d;
+  --color-fire: #c1121f;
+  --color-ember: #e85d04;
+  --color-steel: #8d99ae;
+  --color-gold: #b08d57;
+  --color-bone: #efeae2;
+  --color-wa: #25d366;
+
+  --font-display: "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+  --font-sans: "Inter Variable", Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --ease-blade: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+@layer base {
+  html {
+    background: var(--color-carbon);
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    scroll-padding-top: 4.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-carbon);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* Grano leve sobre todo el sitio */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  ::selection {
+    background: var(--color-fire);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ember);
+    outline-offset: 3px;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ============================================================
+   Tipografía
+   ============================================================ */
+@layer components {
+  .display-1 {
+    font-family: var(--font-display);
+    font-size: clamp(4.25rem, 17vw, 11.5rem);
+    line-height: 0.9;
+    letter-spacing: 0.015em;
+    text-transform: uppercase;
+  }
+
+  .display-2 {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 7.2vw, 5.25rem);
+    line-height: 0.92;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .display-3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3.2vw, 2.25rem);
+    line-height: 1;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .label-display {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* Brillo rojo detrás de títulos clave */
+  .glow-title {
+    position: relative;
+    isolation: isolate;
+  }
+  .glow-title::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: -45% -15% -45% -12%;
+    background: radial-gradient(50% 50% at 38% 52%, rgb(193 18 31 / 0.42), rgb(193 18 31 / 0.12) 45%, transparent 72%);
+    pointer-events: none;
+  }
+}
+
+/* ============================================================
+   Forma: el filo (esquinas cortadas en diagonal)
+   ============================================================ */
+@layer components {
+  .cut {
+    --cut: 14px;
+    clip-path: polygon(
+      0 0,
+      calc(100% - var(--cut)) 0,
+      100% var(--cut),
+      100% 100%,
+      var(--cut) 100%,
+      0 calc(100% - var(--cut))
+    );
+  }
+
+  /* Borde que sigue el corte: el fondo del elemento es el "borde",
+     el ::before es el relleno, recortado un poco más adentro. */
+  .frame {
+    --cut: 14px;
+    --bw: 1px;
+    --frame: var(--color-rule);
+    --fill: var(--color-coal);
+    position: relative;
+    isolation: isolate;
+    background: var(--frame);
+    clip-path: polygon(
+      0 0,
+      calc(100% - var(--cut)) 0,
+      100% var(--cut),
+      100% 100%,
+      var(--cut) 100%,
+      0 calc(100% - var(--cut))
+    );
+    transition: background-color 0.25s ease;
+  }
+  .frame::before {
+    --inner: calc(var(--cut) - var(--bw) * 0.59);
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: var(--bw);
+    background: var(--fill);
+    clip-path: polygon(
+      0 0,
+      calc(100% - var(--inner)) 0,
+      100% var(--inner),
+      100% 100%,
+      var(--inner) 100%,
+      0 calc(100% - var(--inner))
+    );
+    transition: background-color 0.25s ease;
+  }
+
+  /* ---------- Botones ---------- */
+  .btn {
+    --cut: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3.25rem;
+    padding: 0.95rem 1.6rem 0.85rem;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    line-height: 1;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    clip-path: polygon(
+      0 0,
+      calc(100% - var(--cut)) 0,
+      100% var(--cut),
+      100% 100%,
+      var(--cut) 100%,
+      0 calc(100% - var(--cut))
+    );
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s var(--ease-blade);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: -5px;
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    flex-shrink: 0;
+    margin-top: -0.15rem;
+  }
+
+  .btn-fire {
+    background: var(--color-fire);
+    color: #fff;
+  }
+  .btn-fire:hover {
+    background: var(--color-ember);
+  }
+
+  .btn-dark {
+    background: var(--color-carbon);
+    color: #fff;
+  }
+  .btn-dark:hover {
+    background: var(--color-ember);
+  }
+
+  .btn-ghost {
+    position: relative;
+    isolation: isolate;
+    background: rgb(239 234 226 / 0.45);
+    color: var(--color-bone);
+  }
+  .btn-ghost::before {
+    --inner: calc(var(--cut) - 0.9px);
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 1.5px;
+    background: var(--btn-fill, var(--color-carbon));
+    clip-path: polygon(
+      0 0,
+      calc(100% - var(--inner)) 0,
+      100% var(--inner),
+      100% 100%,
+      var(--inner) 100%,
+      0 calc(100% - var(--inner))
+    );
+    transition: background-color 0.2s ease;
+  }
+  .btn-ghost:hover {
+    background: var(--color-ember);
+  }
+  .btn-ghost:hover::before {
+    background: rgb(232 93 4 / 0.12);
+  }
+}
+
+/* ============================================================
+   Texturas
+   ============================================================ */
+@layer components {
+  /* Metal cepillado: vetas horizontales muy sutiles */
+  .tex-metal {
+    background-color: var(--color-coal);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='320'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.0025 .9' numOctaves='3' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0' intercept='.11'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23b)'/%3E%3C/svg%3E"),
+      linear-gradient(180deg, #171718 0%, #121213 100%);
+  }
+
+  /* Hierro: textura más oscura para el fondo general de algunas secciones */
+  .tex-iron {
+    background-color: var(--color-carbon);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='i'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .05' numOctaves='4' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0' intercept='.045'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23i)'/%3E%3C/svg%3E");
+  }
+}
+
+/* ============================================================
+   Movimiento
+   ============================================================ */
+@layer components {
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s var(--ease-blade),
+      transform 0.7s var(--ease-blade);
+  }
+  .js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Hero: las tres líneas del título suben desde su máscara, después prende el brillo */
+  .hero-mask {
+    display: block;
+    overflow: hidden;
+    padding-top: 0.16em;
+    margin-top: -0.16em;
+  }
+  .hero-line {
+    display: block;
+    animation: hero-rise 0.9s var(--ease-blade) both;
+  }
+  .hero-fade {
+    animation: hero-fade 0.8s var(--ease-blade) both;
+  }
+  .hero-ignite {
+    animation: hero-ignite 1.6s ease-out 0.35s both;
+  }
+
+  @keyframes hero-rise {
+    from {
+      transform: translateY(105%);
+    }
+    to {
+      transform: none;
+    }
+  }
+  @keyframes hero-fade {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes hero-ignite {
+    0% {
+      opacity: 0;
+    }
+    35% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.85;
+    }
+  }
+
+  /* Pulso del botón de WhatsApp */
+  .wa-pulse::before,
+  .wa-pulse::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: var(--color-wa);
+    z-index: -1;
+    animation: wa-pulse 2.6s ease-out infinite;
+  }
+  .wa-pulse::after {
+    animation-delay: 1.3s;
+  }
+  @keyframes wa-pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.45;
+    }
+    100% {
+      transform: scale(1.75);
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .hero-line,
+    .hero-fade,
+    .hero-ignite {
+      animation: none;
+    }
+    .wa-pulse::before,
+    .wa-pulse::after {
+      animation: none;
+      opacity: 0;
+    }
+  }
+}
+
+/* ============================================================
+   Utilidades varias
+   ============================================================ */
+@layer utilities {
+  .container-v {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 768px) {
+    .container-v {
+      padding-inline: 2rem;
+    }
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Lightbox */
+dialog.lightbox {
+  max-width: none;
+  max-height: none;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-bone);
+}
+dialog.lightbox::backdrop {
+  background: rgb(8 8 8 / 0.94);
+}
