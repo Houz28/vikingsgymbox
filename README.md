@@ -54,7 +54,7 @@ Todas viven en `public/img/` y se referencian como `/img/archivo.webp`. Las actu
    @vikingsgymbox, quien administra la cuenta puede bajarlas todas desde la app:
    **Tu actividad → Descargar tu información → Fotos y videos**. Instagram guarda las fotos
    a 1080 px como máximo: sirven, pero para el hero conviene una foto original más grande.
-2. Copialas en una carpeta `fotos/` en la raíz del proyecto (no se sube a git).
+2. Copialas en una carpeta `fotos-originales/` en la raíz del proyecto (no se sube a git).
    Nombralas según dónde van: `hero`, `box`, `musculacion`, `crossfit`, `boxeo`, `kick`,
    `spinning`, `localizada`, `galeria-01` … `galeria-12` (cualquier extensión: jpg, png, webp).
    Las que tengan otro nombre (por ejemplo `IMG_2041.jpg`) llenan la galería en orden.
@@ -64,10 +64,11 @@ Todas viven en `public/img/` y se referencian como `/img/archivo.webp`. Las actu
 npm run fotos
 ```
 
-El script recorta cada foto a la proporción de su lugar buscando la zona con más detalle,
-la pasa a WebP liviano en `public/img/`, nunca la agranda, y si cambiaste el hero regenera
-`og.jpg` (la vista previa para WhatsApp y redes) con la foto nueva y los textos de la marca.
-Después actualizá los `alt` de esas fotos en `src/data/site.ts` y hacé commit de `public/img/`.
+El script (`scripts/optimize-images.mjs`, con sharp) recorta cada foto a la proporción de su
+lugar buscando la zona con más detalle, genera WebP de 1600 y 800 px de ancho en `public/img/`
+(nunca agranda) y anota las variantes en `src/data/images.json`, de donde sale el `srcset`.
+Después actualizá los `alt` (y el `focal`, si el recorte no queda bien) en `src/data/site.ts`
+y hacé commit de `public/img/` y `src/data/images.json`.
 
 | Archivo | Uso | Proporción / tamaño ideal |
 | --- | --- | --- |
@@ -93,7 +94,7 @@ Perfil de Empresa. El dato igual suma como información estructurada.
 
 `wrangler.jsonc` publica `./dist` como sitio estático (Workers Static Assets, sin código
 de Worker). `public/_headers` agrega caché larga para JS/CSS/fuentes, un día para las fotos
-y `noindex` en la URL de prueba `*.workers.dev`. Las rutas que no existen devuelven 404.
+Las rutas que no existen devuelven 404.
 
 ### Opción A: deploy automático desde GitHub (recomendado)
 
