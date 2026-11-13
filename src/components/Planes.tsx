@@ -23,6 +23,7 @@ export function Planes() {
         <p className="mt-10 text-sm text-steel md:hidden" aria-hidden="true">Deslizá para ver todos los planes →</p>
         <ul
           className="no-scrollbar -mx-4 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pt-2 pb-4 md:mx-0 md:mt-14 md:grid md:snap-none md:grid-cols-2 md:overflow-visible md:px-0 md:pt-0 md:pb-0 xl:grid-cols-4 xl:gap-3"
+          id="planes-lista"
           aria-label="Planes"
         >
           {site.plans.map((plan, i) => {
