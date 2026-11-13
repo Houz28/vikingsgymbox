@@ -20,7 +20,11 @@ export function Planes() {
           lead="Elegí el plan que mejor va con tu semana. Escribinos y te contamos cómo arrancar."
         />
 
-        <ul className="mt-14 grid items-stretch gap-5 md:grid-cols-2 xl:grid-cols-4 xl:gap-3">
+        <p className="mt-10 text-sm text-steel md:hidden" aria-hidden="true">Deslizá para ver todos los planes →</p>
+        <ul
+          className="no-scrollbar -mx-4 mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pt-2 pb-4 md:mx-0 md:mt-14 md:grid md:snap-none md:grid-cols-2 md:overflow-visible md:px-0 md:pt-0 md:pb-0 xl:grid-cols-4 xl:gap-3"
+          aria-label="Planes"
+        >
           {site.plans.map((plan, i) => {
             const featured = Boolean(plan.featured);
             return (
@@ -28,7 +32,7 @@ export function Planes() {
                 as="li"
                 key={plan.id}
                 delay={i * 80}
-                className={`relative flex ${featured ? "xl:-my-4" : ""}`}
+                className={`relative flex w-[85%] shrink-0 snap-start sm:w-[60%] md:w-auto ${featured ? "order-first md:order-none xl:-my-4" : ""}`}
               >
                 <article
                   className={`frame flex w-full flex-col [--cut:20px] ${
@@ -50,12 +54,24 @@ export function Planes() {
                     </h3>
                     <p className="mt-2 text-[0.95rem] text-steel">{plan.summary}</p>
 
-                    <p className="mt-6 flex items-baseline gap-1.5 border-t border-rule pt-6">
-                      <span className="font-display text-[3.6rem] leading-none tracking-[0.02em] text-white tabular">
-                        {formatPrice(plan.price)}
-                      </span>
-                      <span className="text-sm whitespace-nowrap text-steel">{plan.period}</span>
-                    </p>
+                    <div className="mt-6 border-t border-rule pt-6">
+                      {plan.tag ? (
+                        <span className="label-display mb-3 inline-block bg-ember px-2.5 py-1.5 text-[0.95rem] text-carbon">
+                          {plan.tag}
+                        </span>
+                      ) : null}
+                      <p className="flex items-baseline gap-1.5">
+                        <span className="font-display text-[3.6rem] leading-none tracking-[0.02em] text-white tabular">
+                          {formatPrice(plan.price)}
+                        </span>
+                        <span className="text-sm whitespace-nowrap text-steel">{plan.period}</span>
+                      </p>
+                      {plan.months && plan.months > 1 ? (
+                        <p className={`mt-2 text-sm font-semibold ${featured ? "text-ember" : "text-bone/80"}`}>
+                          ≈ {formatPrice(Math.round(plan.price / plan.months))}/mes
+                        </p>
+                      ) : null}
+                    </div>
 
                     <ul className="mt-6 space-y-3 text-[0.95rem]">
                       {plan.features.map((f) => (

@@ -44,7 +44,12 @@ export interface Plan {
   features: string[];
   /** La tarjeta destacada. Usá solo una. */
   featured?: boolean;
+  /** Etiqueta de la cinta superior de la tarjeta destacada. */
   badge?: string;
+  /** Etiqueta chica junto al precio (ej. "15% OFF"). */
+  tag?: string;
+  /** Si el precio cubre varios meses, se muestra el equivalente por mes. */
+  months?: number;
 }
 
 /** Todo lo que puede aparecer en la grilla de clases. */
@@ -292,6 +297,35 @@ export const site = {
   plansNote: "Precios vigentes publicados por Vikings. Consultá por otras disciplinas y planes.",
   plans: [
     {
+      id: "promo-bimestral",
+      name: "Promo bimestral",
+      price: 90000,
+      period: "/2 meses",
+      months: 2,
+      summary: "Dos meses para arrancar con todo.",
+      features: [
+        "Musculación libre",
+        "Boxeo, CrossFit, spinning y localizada",
+        "Ideal para empezar",
+      ],
+    },
+    {
+      id: "promo-trimestral",
+      name: "Promo trimestral",
+      price: 125000,
+      period: "/3 meses",
+      months: 3,
+      summary: "Pagando 3 meses tenés 15% off.",
+      features: [
+        "Musculación libre",
+        "Boxeo, CrossFit, spinning y localizada",
+        "El mejor precio por mes",
+      ],
+      featured: true,
+      badge: "Más elegido",
+      tag: "15% OFF",
+    },
+    {
       id: "kick-muaythai",
       name: "Kick Boxing / Muay Thai",
       price: 40000,
@@ -301,32 +335,6 @@ export const site = {
         "Kick boxing o Muay Thai, 3 veces por semana",
         "Técnica, bolsa y trabajo con guantes",
         "Para todos los niveles",
-      ],
-    },
-    {
-      id: "promo-trimestral",
-      name: "Promo trimestral",
-      price: 125000,
-      period: "/3 meses",
-      summary: "Pagando 3 meses tenés 15% off.",
-      features: [
-        "Musculación libre",
-        "Boxeo, CrossFit, spinning y localizada",
-        "El mejor precio por mes",
-      ],
-      featured: true,
-      badge: "15% off",
-    },
-    {
-      id: "promo-bimestral",
-      name: "Promo bimestral",
-      price: 90000,
-      period: "/2 meses",
-      summary: "Dos meses para arrancar con todo.",
-      features: [
-        "Musculación libre",
-        "Boxeo, CrossFit, spinning y localizada",
-        "Ideal para empezar",
       ],
     },
     {
