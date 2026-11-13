@@ -1,4 +1,5 @@
 import { site } from "../data/site";
+import { responsive } from "../lib/img";
 import { waLink } from "../lib/whatsapp";
 import { WhatsAppIcon } from "./icons";
 import { AxeLine, Reveal, Rune, RuneRule, axeTop } from "./ornaments";
@@ -52,6 +53,8 @@ export function ElBox() {
           <div className="cut relative aspect-[4/5] overflow-hidden [--cut:34px] sm:aspect-[5/4] lg:aspect-[4/5]">
             <img
               src={box.image}
+              {...responsive(box.image, "(min-width: 1024px) 50vw, 100vw")}
+              style={{ objectPosition: box.imageFocal }}
               alt={box.imageAlt}
               width={1200}
               height={1500}

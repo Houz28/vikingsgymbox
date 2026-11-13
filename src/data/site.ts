@@ -28,6 +28,8 @@ export interface Discipline {
   description: string;
   image: string;
   alt: string;
+  /** Punto de foco del recorte (CSS object-position), ej. "50% 30%". Opcional. */
+  focal?: string;
   /** Color del chip en la grilla de horarios. */
   color: string;
 }
@@ -71,6 +73,8 @@ export interface MerchItem {
 export interface GalleryImage {
   src: string;
   alt: string;
+  /** Punto de foco del recorte (CSS object-position). Opcional. */
+  focal?: string;
   width: number;
   height: number;
 }
@@ -174,6 +178,8 @@ export const site = {
     subtitle:
       "Gimnasio y box en el corazón de Morón. Musculación, CrossFit, boxeo y más.",
     image: "/img/hero.webp",
+    /** Punto de foco del recorte en pantallas angostas (CSS object-position). */
+    imageFocal: "68% 50%",
     imageAlt:
       "Interior del box de Vikings Gym & Box en Morón, con rack, barras y discos bajo luz roja",
     primaryCta: "Quiero empezar",
@@ -267,6 +273,7 @@ export const site = {
       { title: "Clases para principiantes", text: "Cada WOD se escala. Nadie arranca sabiendo." },
     ],
     image: "/img/box.webp",
+    imageFocal: "50% 50%",
     imageAlt: "El box de Vikings con rig, anillas, cajones de salto y kettlebells",
     cta: "Quiero probar una clase",
     ctaMessage: "Hola Vikings! Quiero probar una clase en el box",

@@ -1,4 +1,5 @@
 import { site } from "../data/site";
+import { responsive } from "../lib/img";
 import { waLink } from "../lib/whatsapp";
 import { DisciplineIcon } from "./icons";
 import { AxeLine, Reveal, SectionHeading, axeTop } from "./ornaments";
@@ -32,6 +33,8 @@ export function Disciplinas() {
                 <div className="cut relative aspect-[16/10] overflow-hidden [--cut:21.4px] sm:aspect-[4/5]" style={{ margin: 1 }}>
                   <img
                     src={d.image}
+                    {...responsive(d.image, "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw")}
+                    style={{ objectPosition: (d as { focal?: string }).focal }}
                     alt={d.alt}
                     width={800}
                     height={1000}

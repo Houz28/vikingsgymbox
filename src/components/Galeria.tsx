@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { site } from "../data/site";
+import { responsive } from "../lib/img";
 import { ChevronIcon, CloseIcon, InstagramIcon } from "./icons";
 import { Reveal, SectionHeading } from "./ornaments";
 
@@ -89,6 +90,8 @@ export function Galeria() {
                 >
                   <img
                     src={img.src}
+                    {...responsive(img.src, "(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw")}
+                    style={{ objectPosition: (img as { focal?: string }).focal }}
                     alt={img.alt}
                     width={img.width}
                     height={img.height}

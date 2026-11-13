@@ -1,5 +1,6 @@
 import { site } from "../data/site";
 import { formatDecimal } from "../lib/format";
+import { responsive } from "../lib/img";
 import { waLink } from "../lib/whatsapp";
 import { GoogleIcon, StarIcon, WhatsAppIcon } from "./icons";
 
@@ -12,12 +13,14 @@ export function Hero() {
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <img
           src={hero.image}
+          {...responsive(hero.image, "100vw")}
           alt={hero.imageAlt}
           width={1920}
           height={1080}
           fetchPriority="high"
           decoding="async"
-          className="h-full w-full object-cover object-[68%_50%]"
+          className="h-full w-full object-cover"
+          style={{ objectPosition: hero.imageFocal }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-carbon via-carbon/75 to-carbon/10" />
         <div className="absolute inset-0 bg-gradient-to-b from-carbon/70 via-transparent to-transparent" />
