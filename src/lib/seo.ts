@@ -13,7 +13,7 @@ export function buildJsonLd() {
     description: seo.description,
     url: `${site.url}/`,
     image: [abs(seo.ogImage), abs("/img/hero.webp")],
-    logo: abs("/img/icon-512.png"),
+    logo: abs("/img/logo/vikings-gym-box.svg"),
     telephone: contact.phoneE164,
     priceRange: seo.priceRange,
     address: {

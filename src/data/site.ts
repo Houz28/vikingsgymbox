@@ -95,15 +95,15 @@ export interface OpeningHours {
 // ------------------------------------------------------------
 
 const whatsappNumber = "5491132849149";
-const mapsQuery = "Viking's Gym & Box, Cristóbal Colón 339, Morón";
+const mapsQuery = "Vikings Gym & Box, Cristóbal Colón 339, Morón";
 
 export const site = {
-  name: "Viking's Gym & Box",
+  name: "Vikings Gym & Box",
   /** Dominio final, sin barra al final. Se usa en canonical, Open Graph y sitemap. */
   url: "https://vikingsgymbox.com.ar",
 
   seo: {
-    title: "Viking's Gym & Box | Gimnasio y Box de CrossFit en Morón",
+    title: "Vikings Gym & Box | Gimnasio y Box de CrossFit en Morón",
     description:
       "Gimnasio en Morón con musculación, CrossFit, boxeo, kick boxing, spinning y localizada. 4,8⭐ en Google. Cristóbal Colón 339. ¡Escribinos por WhatsApp!",
     ogImage: "/img/og.jpg",
@@ -175,7 +175,7 @@ export const site = {
       "Gimnasio y box en el corazón de Morón. Musculación, CrossFit, boxeo y más.",
     image: "/img/hero.webp",
     imageAlt:
-      "Interior del box de Viking's Gym & Box en Morón, con rack, barras y discos bajo luz roja",
+      "Interior del box de Vikings Gym & Box en Morón, con rack, barras y discos bajo luz roja",
     primaryCta: "Quiero empezar",
     secondaryCta: "Ver planes",
     /** Franja de datos debajo del hero. */
@@ -267,7 +267,7 @@ export const site = {
       { title: "Clases para principiantes", text: "Cada WOD se escala. Nadie arranca sabiendo." },
     ],
     image: "/img/box.webp",
-    imageAlt: "El box de Viking's con rig, anillas, cajones de salto y kettlebells",
+    imageAlt: "El box de Vikings con rig, anillas, cajones de salto y kettlebells",
     cta: "Quiero probar una clase",
     ctaMessage: "Hola Vikings! Quiero probar una clase en el box",
     /** Pizarrón de ejemplo. Cambialo por el WOD que quieras. */

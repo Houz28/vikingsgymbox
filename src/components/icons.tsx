@@ -22,7 +22,7 @@ function Svg({ title, children, ...props }: IconProps) {
   );
 }
 
-/** Casco vikingo: marca de Viking's. */
+/** Casco vikingo: marca de Vikings. */
 export function HelmetIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
