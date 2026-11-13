@@ -112,7 +112,7 @@ const mapsQuery = "Vikings Gym & Box, Cristóbal Colón 339, Morón";
 export const site = {
   name: "Vikings Gym & Box",
   /** Dominio final, sin barra al final. Se usa en canonical, Open Graph y sitemap. */
-  url: "https://vikingsgymbox.com.ar",
+  url: "https://vikingsgymbox.houzitess.workers.dev",
 
   seo: {
     title: "Vikings Gym & Box | Gimnasio y Box de CrossFit en Morón",
