@@ -140,7 +140,7 @@ export const site = {
     mapsQuery,
     mapsEmbedUrl: `https://www.google.com/maps?q=${encodeURIComponent(mapsQuery)}&output=embed`,
     mapsPlaceUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapsQuery)}`,
-    mapsDirectionsUrl: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapsQuery)}`,
+    mapsDirectionsUrl: "https://www.google.com/maps/dir/?api=1&destination=Crist%C3%B3bal+Col%C3%B3n+339,+Mor%C3%B3n,+Buenos+Aires",
   },
 
   social: {
