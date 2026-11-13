@@ -4,3 +4,7 @@ dist-ssr
 .wrangler
 *.local
 .DS_Store
+
+# Fotos originales: se convierten con `npm run fotos` y no se suben
+fotos/
+.dev.vars*

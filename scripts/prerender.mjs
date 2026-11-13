@@ -29,5 +29,11 @@ if (bebas) {
 }
 
 writeFileSync(join(dist, "index.html"), html);
+
+// 404: la misma página (la gente ve el sitio), pero con status 404 y sin indexar.
+writeFileSync(
+  join(dist, "404.html"),
+  html.replace('<meta name="robots" content="index, follow" />', '<meta name="robots" content="noindex" />'),
+);
 rmSync(ssrDir, { recursive: true, force: true });
 console.log(`✓ Prerender listo (${(appHtml.length / 1024).toFixed(1)} KB de HTML)`);

@@ -1,4 +1,5 @@
 {
+  "$schema": "node_modules/wrangler/config-schema.json",
   // Cloudflare Workers: sitio estático servido desde ./dist (sin código de Worker).
   "name": "vikingsgymbox",
   "compatibility_date": "2026-10-01",

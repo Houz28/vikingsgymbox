@@ -46,20 +46,37 @@ No hace falta tocar componentes.
 ## Imágenes
 
 Todas viven en `public/img/` y se referencian como `/img/archivo.webp`. Las actuales son
-**placeholders** generados (escenas oscuras de equipamiento). Para reemplazarlas, pisá el
-archivo con el mismo nombre y actualizá su `alt` en `site.ts`:
+**placeholders** generados (escenas oscuras de equipamiento).
 
-| Archivo | Uso | Tamaño sugerido |
+### Cargar las fotos reales (por ejemplo, las del Instagram)
+
+1. Conseguí las fotos originales. Lo mejor es pedírselas al dueño. Si salen del Instagram
+   @vikingsgymbox, quien administra la cuenta puede bajarlas todas desde la app:
+   **Tu actividad → Descargar tu información → Fotos y videos**. Instagram guarda las fotos
+   a 1080 px como máximo: sirven, pero para el hero conviene una foto original más grande.
+2. Copialas en una carpeta `fotos/` en la raíz del proyecto (no se sube a git).
+   Nombralas según dónde van: `hero`, `box`, `musculacion`, `crossfit`, `boxeo`, `kick`,
+   `spinning`, `localizada`, `galeria-01` … `galeria-12` (cualquier extensión: jpg, png, webp).
+   Las que tengan otro nombre (por ejemplo `IMG_2041.jpg`) llenan la galería en orden.
+3. Corré:
+
+```bash
+npm run fotos
+```
+
+El script recorta cada foto a la proporción de su lugar buscando la zona con más detalle,
+la pasa a WebP liviano en `public/img/`, nunca la agranda, y si cambiaste el hero regenera
+`og.jpg` (la vista previa para WhatsApp y redes) con la foto nueva y los textos de la marca.
+Después actualizá los `alt` de esas fotos en `src/data/site.ts` y hacé commit de `public/img/`.
+
+| Archivo | Uso | Proporción / tamaño ideal |
 | --- | --- | --- |
-| `hero.webp` | Fondo del hero (se recorta hacia la derecha) | 1920×1080 |
-| `box.webp` | Foto grande de El Box | 1200×1500 (vertical) |
-| `musculacion.webp`, `crossfit.webp`, `boxeo.webp`, `kick.webp`, `spinning.webp`, `localizada.webp` | Tarjetas de disciplinas | 800×1000 |
-| `galeria-01.webp` … `galeria-12.webp` | Galería (si cambia la proporción, actualizá `width`/`height` en `gallery`) | 900–1200 px de ancho |
-| `og.jpg` | Vista previa al compartir en WhatsApp/redes | 1200×630 |
+| `hero.webp` | Fondo del hero (el texto va a la izquierda) | 16:9, 1920×1080 |
+| `box.webp` | Foto grande de El Box | 4:5, 1200×1500 |
+| `musculacion.webp`, `crossfit.webp`, `boxeo.webp`, `kick.webp`, `spinning.webp`, `localizada.webp` | Tarjetas de disciplinas (el texto va abajo) | 4:5, 800×1000 |
+| `galeria-01.webp` … `galeria-12.webp` | Galería: cada lugar tiene su proporción en `gallery` de `site.ts` | 900–1200 px de ancho |
+| `og.jpg` | Vista previa al compartir | 1200×630 |
 | `icon-512.png`, `apple-touch-icon.png` | Ícono de la app / logo para Google | 512 y 180 px |
-
-Para pasar fotos a WebP: `cwebp -q 80 foto.jpg -o hero.webp` o cualquier conversor online.
-Mantené cada foto por debajo de ~250 KB.
 
 ## SEO local incluido
 
@@ -74,6 +91,34 @@ Perfil de Empresa. El dato igual suma como información estructurada.
 
 ## Deploy en Cloudflare Workers
 
-`wrangler.jsonc` publica `./dist` como sitio estático (sin código de Worker).
-Con `npm run deploy` se compila y se sube. Después, en el panel de Cloudflare,
-asociá el dominio al Worker `vikingsgymbox`.
+`wrangler.jsonc` publica `./dist` como sitio estático (Workers Static Assets, sin código
+de Worker). `public/_headers` agrega caché larga para JS/CSS/fuentes, un día para las fotos
+y `noindex` en la URL de prueba `*.workers.dev`. Las rutas que no existen devuelven 404.
+
+### Opción A: deploy automático desde GitHub (recomendado)
+
+1. En el panel de Cloudflare: **Workers & Pages → Create application → GitHub** y elegí
+   el repo `vikingsgymbox`.
+2. Configuración:
+   - **Project name:** `vikingsgymbox` (tiene que coincidir con `name` en `wrangler.jsonc`)
+   - **Production branch:** `main`
+   - **Build command:** `npm run build`
+   - **Deploy command:** `npx wrangler deploy`
+3. **Save and Deploy.** A partir de ahí, cada push a `main` se publica solo. La versión de
+   Node la toma de `.node-version` (22).
+
+### Opción B: deploy manual desde tu compu
+
+```bash
+npx wrangler login
+```
+
+```bash
+npm run deploy
+```
+
+### Dominio propio
+
+En el Worker: **Settings → Domains & Routes → Add → Custom domain** (el dominio tiene que
+estar en la misma cuenta de Cloudflare). Después actualizá `url` en `src/data/site.ts`
+para que canonical, Open Graph y el sitemap apunten al dominio final.
